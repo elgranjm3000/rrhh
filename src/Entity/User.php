@@ -4,13 +4,25 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+
 
 /**
  * @ORM\Table(name="app_users")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields="email", message="Email ya esta registrado")
+ * @UniqueEntity(fields="username", message="Username ya esta registrado")
+
  */
 class User implements UserInterface, \Serializable
 {
+
+    public static $possibleRoles = array(
+        'ADMINISTRADOR' => 'ROLE_ADMIN',
+        'USUARIOS'  => 'ROLE_USER'
+    );
     /**
      * @ORM\Column(type="integer")
      * @ORM\Id
@@ -20,8 +32,16 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
+     * @Assert\NotBlank()
      */
     private $username;
+
+
+     /**
+     * @Assert\NotBlank()
+     * @Assert\Length(max=4096)
+     */
+    private $plainPassword;
 
     /**
      * @ORM\Column(type="string", length=64)
@@ -31,12 +51,14 @@ class User implements UserInterface, \Serializable
 
 
     /**
-     * @ORM\Column(type="string", length=64)
+     * @ORM\Column(type="simple_array", length=20)
      */
     private $roles;
 
     /**
      * @ORM\Column(type="string", length=60, unique=true)
+     * @Assert\NotBlank()
+     * @Assert\Email()
      */
     private $email;
 
@@ -52,9 +74,23 @@ class User implements UserInterface, \Serializable
         // $this->salt = md5(uniqid('', true));
     }
 
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
     public function getUsername()
     {
         return $this->username;
+    }
+     public function setUsername($username)
+    {
+        $this->username = $username;
     }
 
     public function getSalt()
@@ -68,6 +104,12 @@ class User implements UserInterface, \Serializable
     {
         return $this->password;
     }
+    public function setPassword($password)
+    {
+        $this->password = $password;
+    }
+
+  
 
     public function getRoles()
     {
@@ -75,8 +117,16 @@ class User implements UserInterface, \Serializable
        /* if (is_null($this->roles)) {
             return [];
         }*/
-        return array($this->roles);
+        
+        //return array($this->roles);
+        return $this->roles;
     }
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+ 
 
     public function eraseCredentials()
     {
@@ -106,4 +156,21 @@ class User implements UserInterface, \Serializable
             // $this->salt
         ) = unserialize($serialized);
     }
+
+
+     public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
+    }
+
+    public function __toString()
+{
+      return strval($this->getRoles());
+}
+
 }
