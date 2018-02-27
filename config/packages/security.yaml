@@ -1,46 +1,28 @@
-# To get started with security, check out the documentation:
-# http://symfony.com/doc/current/book/security.html
 security:
-
-    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
-    providers:
+    providers:            
         our_db_provider:
             entity:
                 class: App\Entity\User
-                property: username
-
     firewalls:
-        default:
-            anonymous: ~
-            http_basic: ~
-            form_login:
-                login_path: /login
-                check_path: /login_check
-                # field names for the username and password fields:
-                username_parameter: _username
-                password_parameter: _password
-                # default_target_path: default_security_target
-                # always_use_default_target_path: true
-            logout:
-                path:   /logout
-                target: /login
-                
-        # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-
         main:
             anonymous: ~
-            # activate different ways to authenticate
+            provider: our_db_provider
+            form_login:
+                login_path: login
+                check_path: login                
+                use_referer: true
+                failure_path: login_failure_route_name
+            logout:
+                path: security_logout
+                target: login
 
-            # http_basic: ~
-            # http://symfony.com/doc/current/book/security.html#a-configuring-how-your-users-will-authenticate
-
-            # form_login: ~
-            # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
-
+    access_control:
+        # require ROLE_ADMIN for /admin*
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, roles: ROLE_ADMIN }
     encoders:
         App\Entity\User:
             algorithm: bcrypt
-            cost: 12

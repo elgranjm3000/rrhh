@@ -119,4 +119,25 @@ class LuckyController extends Controller
         ));
     }
 
+
+    /**
+     * @Route("/admin", name="admin")
+     */
+    public function admin()
+    {
+        
+        return $this->render('admin/index.html.twig');
+    }
+
+
+     /**
+     * @Route("/olvido", name="forgot_password")
+     */
+    public function olvido()
+    {
+        return new Response('<html><body>olvido clave ?</body></html>');
+    }
+
+    
+
 }

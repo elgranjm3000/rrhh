@@ -14,9 +14,8 @@ class SecurityController extends Controller
      * @Route("/login", name="login")
      */
     public function login(Request $request, AuthenticationUtils $authUtils)
-    {
-
-    		// get the login error if there is one
+	{
+    // get the login error if there is one
     $error = $authUtils->getLastAuthenticationError();
 
     // last username entered by the user
@@ -26,12 +25,21 @@ class SecurityController extends Controller
         'last_username' => $lastUsername,
         'error'         => $error,
     ));
-    }
+	}
 
 /**
      * @Route("/login_check", name="login_check")
      */
     public function loginCheckAction()
+    {
+        
+    }
+
+
+     /**
+     * @Route("/logout", name="security_logout")
+     */
+    public function logoutAction()
     {
         
     }

@@ -1,4 +1,5 @@
 <?php
+// src/Entity/User.php
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -26,6 +27,13 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", length=64)
      */
     private $password;
+
+
+
+    /**
+     * @ORM\Column(type="string", length=64)
+     */
+    private $roles;
 
     /**
      * @ORM\Column(type="string", length=60, unique=true)
@@ -63,7 +71,11 @@ class User implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        return array('ROLE_USER');
+        //return array('ROLE_USER');
+       /* if (is_null($this->roles)) {
+            return [];
+        }*/
+        return array($this->roles);
     }
 
     public function eraseCredentials()
@@ -77,6 +89,7 @@ class User implements UserInterface, \Serializable
             $this->id,
             $this->username,
             $this->password,
+            $this->isActive,
             // see section on salt below
             // $this->salt,
         ));
