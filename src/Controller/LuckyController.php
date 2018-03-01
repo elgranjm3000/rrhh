@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use App\Entity\Product;
 
 
 class LuckyController extends Controller
@@ -70,7 +71,11 @@ class LuckyController extends Controller
     */
     public function servicios()
     {
-      return $this->render('lucky/servicios.html.twig');
+
+      $product = $this->getDoctrine()
+        ->getRepository(Product::class)
+        ->findAll();
+      return $this->render('lucky/servicios.html.twig',array('productos'=>$product));
     }
 
     /**

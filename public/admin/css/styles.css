@@ -783,10 +783,15 @@ a.label:hover, a.label:focus {
 
   .navbar-header {
     width: 100%; } }
-.sidebar ul.nav a:hover, .sidebar ul.nav li.parent ul li a:hover {
+
+{
   text-decoration: none;
+   color: #fff; 
   background-color: #30a5ff;
-  color: #fff; }
+ 
+
+}
+
 
 .sidebar ul.nav .active a, .sidebar ul.nav li.parent a.active, .sidebar ul.nav .active > a:hover, .sidebar ul.nav li.parent a.active:hover, .sidebar ul.nav .active > a:focus, .sidebar ul.nav li.parent a.active:focus {
   color: #fff;
@@ -1031,3 +1036,6 @@ p.back-link {
   margin-bottom: 20px;
   font-size: 12px;
   text-transform: uppercase; }
+
+
+
