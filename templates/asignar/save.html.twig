@@ -1,0 +1,44 @@
+{% extends 'administrador.html.twig' %}
+
+
+
+{% block body %}
+
+<div class="row">
+      <ol class="breadcrumb">
+        <li><a href="#">
+          <em class="fa fa-home"></em>
+        </a></li>
+        <li class="active">Usuarios</li>
+      </ol>
+    </div><!--/.row-->
+    
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">Crear Usuarios</h1>
+      </div>
+    </div><!--/.row-->
+
+<div class="row">
+<div class="col-md-9">
+<div class="panel panel-default">
+<div class="panel-body">
+	{{ form_start(form , { 'attr': {'role': 'form','novalidate':'novalidate', 'class':'form-horizontal'} }) }}
+    
+
+     {{ form_row(form.usuarioasignado,{'label':'Usuario','attr': {'class': 'form-control','placeholder':'Username', 'title': 'Escriba su username'} } ) }}
+
+	{{ form_row(form.materialasignado,{'label':'Material','attr': {'class': 'form-control','placeholder':'Email', 'title': 'Escriba su Email'} } ) }}
+
+
+
+	
+
+    <button type="submit" class="btn btn-sm btn-success btn-md pull-right">Asignar</button>
+	{{ form_end(form) }}
+	</div>
+	</div>
+</div>
+</div>
+
+{% endblock %}

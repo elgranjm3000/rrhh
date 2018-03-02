@@ -3,12 +3,25 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  */
 class Product
 {
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="Asignar", mappedBy="product")
+     */
+    protected $asignar;
+ 
+    public function __construct()
+    {
+        $this->asignar = new ArrayCollection();
+    }
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -36,7 +49,7 @@ class Product
      /**
      * @var string
      *
-     * @ORM\Column(name="image", type="blob", nullable=true)
+      * @ORM\Column(name="image", type="string", length=60, nullable=true)
      */
     private $image;
 
@@ -52,7 +65,7 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="formato", type="string", length=10, nullable=true)
+     * @ORM\Column(name="formato", type="string", length=100, nullable=true)
      */
     private $formato;
 
@@ -118,6 +131,10 @@ class Product
         $this->formato = $formato;
     }
 
+public function __toString()
+   {
+      return strval($this->getId());
+   }
 
      
 }

@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 
 
@@ -19,9 +20,17 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class User implements UserInterface, \Serializable
 {
 
+
+    /**
+     * @ORM\OneToMany(targetEntity="Asignar", mappedBy="user")
+     */
+    protected $asignar;
+ 
+    
     public static $possibleRoles = array(
         'ADMINISTRADOR' => 'ROLE_ADMIN',
-        'USUARIOS'  => 'ROLE_USER'
+        'USUARIOS'  => 'ROLE_USER',
+        'CLIENTES' => 'ROL_CLIENTES'
     );
     /**
      * @ORM\Column(type="integer")
@@ -70,6 +79,7 @@ class User implements UserInterface, \Serializable
     public function __construct()
     {
         $this->isActive = true;
+        $this->asignar = new ArrayCollection();
         // may not be needed, see section on salt below
         // $this->salt = md5(uniqid('', true));
     }
@@ -168,9 +178,24 @@ class User implements UserInterface, \Serializable
         $this->plainPassword = $password;
     }
 
-    public function __toString()
-{
-      return strval($this->getRoles());
-}
+
+     public function getId()
+    {
+        return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+   public function __toString()
+   {
+      return strval($this->getId());
+   }
+
+
+    
+
 
 }
