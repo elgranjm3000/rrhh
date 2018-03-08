@@ -22,10 +22,9 @@ security:
     access_control:
         # require ROLE_ADMIN for /admin*
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/admin, roles: ROLE_ADMIN }
-        - { path: ^/admin, roles: ROLE_USER }
         - { path: ^/material, roles: ROLE_ADMIN }
         - { path: ^/material, roles: ROLE_USER }
+        - { path: ^/servicios, roles: ROLE_CLIENTES }
     encoders:
         App\Entity\User:
             algorithm: bcrypt

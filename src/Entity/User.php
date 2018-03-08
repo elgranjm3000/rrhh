@@ -30,7 +30,7 @@ class User implements UserInterface, \Serializable
     public static $possibleRoles = array(
         'ADMINISTRADOR' => 'ROLE_ADMIN',
         'USUARIOS'  => 'ROLE_USER',
-        'CLIENTES' => 'ROL_CLIENTES'
+        'CLIENTES' => 'ROLE_CLIENTES'
     );
     /**
      * @ORM\Column(type="integer")

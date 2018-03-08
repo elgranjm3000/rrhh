@@ -8,6 +8,7 @@
   <link href="{{ asset('admin/css/font-awesome.min.css') }}" rel="stylesheet">
   <link href="{{ asset('admin/css/datepicker3.css') }}" rel="stylesheet">
   <link href="{{ asset('admin/css/styles.css') }}" rel="stylesheet">
+
   
   <!--Custom Font-->
   <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -125,7 +126,8 @@
           
         </ul>
       </li>
-         <li><a  class="user1" href="{{ path('user_registration') }}"><em class="fa fa-users">&nbsp;</em> Crear Usuarios</a></li>
+         <li><a  class="user1" href="{{ path('asignar_now') }}"><em class="fa fa-clipboard">&nbsp;</em> Asignar Material</a></li>
+          <li><a  class="user1" href="{{ path('user_registration') }}"><em class="fa fa-users">&nbsp;</em> Crear Usuarios</a></li>
       <li><a href="{{ path('security_logout') }}"><em class="fa fa-power-off">&nbsp;</em> Logout</a></li>
     </ul>
   </div><!--/.sidebar-->
@@ -150,6 +152,8 @@
   <script src="{{ asset('admin/js/bootstrap-datepicker.js') }}"></script>
   <script src="{{ asset('admin/js/custom.js') }}"></script>
   <script>
+
+
     window.onload = function () {
   var chart1 = document.getElementById("line-chart").getContext("2d");
   window.myLine = new Chart(chart1).Line(lineChartData, {
@@ -161,5 +165,7 @@
 };
   </script>
     
+       <script src="{{ asset('admin/js/autocompleter-jqueryui.js') }}"></script>
+
 </body>
 </html>

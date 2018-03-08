@@ -27,6 +27,24 @@ class SecurityController extends Controller
     ));
 	}
 
+
+    /**
+     * @Route("/loginfront", name="loginfront")
+     */
+    public function loginfrontAction(Request $request, AuthenticationUtils $authUtils)
+    {
+    // get the login error if there is one
+    $error = $authUtils->getLastAuthenticationError();
+
+    // last username entered by the user
+    $lastUsername = $authUtils->getLastUsername();
+
+    return $this->render('lucky/login.html.twig', array(
+        'last_username' => $lastUsername,
+        'error'         => $error,
+    ));
+    }
+
 /**
      * @Route("/login_check", name="login_check")
      */

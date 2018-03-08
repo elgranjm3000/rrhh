@@ -11,6 +11,9 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use App\Entity\Product;
+use App\Entity\User;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 
 class LuckyController extends Controller
@@ -128,10 +131,18 @@ class LuckyController extends Controller
     /**
      * @Route("/admin", name="admin")
      */
-    public function admin()
+    public function admin(AuthorizationCheckerInterface $authChecker)
     {
+      //$session = $request->getRoles();
+ if ($authChecker->isGranted('ROLE_CLIENTES')) {
         
-        return $this->render('admin/index.html.twig');
+            return $this->redirectToRoute('servicios');
+  
+    }
+  if ($authChecker->isGranted('ROLE_ADMIN')) {
+        
+            return $this->render('admin/index.html.twig');
+        }
     }
 
 
@@ -143,6 +154,18 @@ class LuckyController extends Controller
         return new Response('<html><body>olvido clave ?</body></html>');
     }
 
+
+   /**
+      * @Route("/mimaterial", name="mimaterial")
+    */
+    public function mimaterialAction()
+    {
+      $product = $this->getDoctrine()
+        ->getRepository(Product::class)
+        ->findAll();
+      return $this->render('lucky/mimaterial.html.twig',array('productos'=>$product));
+
+    }
     
 
 }

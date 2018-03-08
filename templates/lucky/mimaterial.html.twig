@@ -1,0 +1,41 @@
+
+{% extends 'template.html.twig' %}
+
+
+{% block body %}
+
+	 
+<hr class="featurette-divider">
+    
+<div class="container marketing">
+      <!-- Three columns of text below the carousel -->
+      <div class="container">
+      <div class="row">
+        
+
+
+  {% for entity in productos %}
+
+        <div class="col-lg-4">
+           <iframe id="viewer" src="{{ asset('ViewerJS/') }}#..{{ asset('uploads/brochures/') }}{{ entity.image }}" width='400' height='300' allowfullscreen webkitallowfullscreen></iframe>
+        </div><!-- /.col-lg-4 -->
+{% endfor %}
+        
+      </div><!-- /.row -->
+
+
+     
+
+
+</div>
+      <!-- START THE FEATURETTES -->
+
+     
+
+
+     
+      
+      <hr class="featurette-divider">
+
+      <!-- /END THE FEATURETTES -->
+{% endblock %}

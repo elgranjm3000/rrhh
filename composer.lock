@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "51584736f66f85fa6531f385d7d2c3c3",
+    "content-hash": "41f5f6308beb7b0acedf077c82813233",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1283,6 +1283,65 @@
             "time": "2017-01-02T13:31:39+00:00"
         },
         {
+            "name": "pugx/autocompleter-bundle",
+            "version": "v1.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/PUGX/PUGXAutoCompleterBundle.git",
+                "reference": "8c3c419669ec2cb951305146f4d89dd3f92e8d08"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/PUGX/PUGXAutoCompleterBundle/zipball/8c3c419669ec2cb951305146f4d89dd3f92e8d08",
+                "reference": "8c3c419669ec2cb951305146f4d89dd3f92e8d08",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/orm": "^2.5",
+                "php": ">=7.1",
+                "symfony/config": "^3.4|^4.0",
+                "symfony/dependency-injection": "^3.4|^4.0",
+                "symfony/event-dispatcher": "^3.4|^4.0",
+                "symfony/form": "^3.4|^4.0",
+                "symfony/http-kernel": "^3.4|^4.0"
+            },
+            "require-dev": {
+                "lexik/form-filter-bundle": "^5.0",
+                "phpunit/phpunit": "^6.4"
+            },
+            "suggest": {
+                "lexik/form-filter-bundle": "To use autocomplete on a filter."
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.5.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PUGX\\AutocompleterBundle\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Massimiliano Arione",
+                    "email": "garakkio@gmail.com"
+                }
+            ],
+            "description": "Add an autocomplete type to forms",
+            "keywords": [
+                "field",
+                "form",
+                "symfony"
+            ],
+            "time": "2018-01-07T19:59:30+00:00"
+        },
+        {
             "name": "sensio/framework-extra-bundle",
             "version": "v5.1.5",
             "source": {
@@ -1350,6 +1409,28 @@
                 "controllers"
             ],
             "time": "2018-02-06T19:53:10+00:00"
+        },
+        {
+            "name": "symfony/apache-pack",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/apache-pack.git",
+                "reference": "3aa5818d73ad2551281fc58a75afd9ca82622e6c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/apache-pack/zipball/3aa5818d73ad2551281fc58a75afd9ca82622e6c",
+                "reference": "3aa5818d73ad2551281fc58a75afd9ca82622e6c",
+                "shasum": ""
+            },
+            "type": "symfony-pack",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A pack for Apache support in Symfony",
+            "time": "2017-12-12T01:46:35+00:00"
         },
         {
             "name": "symfony/asset",

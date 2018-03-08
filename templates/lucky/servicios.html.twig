@@ -22,7 +22,7 @@
           <p>{{ entity.description }}</p>
           <p><a class="btn btn-default" href="{{ path('pagar_now' , { 'id': entity.id }) }}" role="button" target="_blank">Comprar ahora »</a></p>
 
-           <iframe id="viewer" src="{{ asset('ViewerJS/') }}#..{{ asset('uploads/brochures/') }}{{ entity.image }}" width='400' height='300' allowfullscreen webkitallowfullscreen></iframe>
+          <!-- <iframe id="viewer" src="{{ asset('ViewerJS/') }}#..{{ asset('uploads/brochures/') }}{{ entity.image }}" width='400' height='300' allowfullscreen webkitallowfullscreen></iframe>-->
         </div><!-- /.col-lg-4 -->
 {% endfor %}
         

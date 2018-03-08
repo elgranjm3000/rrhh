@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Form\ProductType;
 use App\Form\AsignarType;
 use App\Form\UserType;
+use App\Form\UsercrearType;
 use App\Entity\User;
 use App\Entity\Product;
 use App\Entity\Asignar;
@@ -58,6 +59,48 @@ class AdminController extends Controller
 
         return $this->render(
             'admin/registrar.html.twig',
+            array('form' => $form->createView())
+        );
+    }
+
+    /**
+     * @Route("/registrarfront", name="user_registrarfront")
+     */
+    public function registerfrontAction(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    {
+
+      $possibleRoles = array(
+        'ADMINISTRADOR' => 'ROLE_ADMIN',
+        'USUARIOS'  => 'ROLE_USER',
+        'CLIENTES' => 'ROL_CLIENTES'
+    );
+      
+        // 1) build the form
+        $user = new User();
+        $form = $this->createForm(UsercrearType::class, $user);
+
+        // 2) handle the submit (will only happen on POST)
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // 3) Encode the password (you could also do this via Doctrine listener)
+            $password = $passwordEncoder->encodePassword($user, $user->getPlainPassword());
+            $user->setPassword($password);
+            $user->setRoles(array($possibleRoles['CLIENTES']));
+
+            // 4) save the User!
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            // ... do any other work - like sending them an email, etc
+            // maybe set a "flash" success message for the user
+
+            return $this->redirectToRoute('user_registrarfront');
+        }
+
+        return $this->render(
+            'lucky/registrar.html.twig',
             array('form' => $form->createView())
         );
     }

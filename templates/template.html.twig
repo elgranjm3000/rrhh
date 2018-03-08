@@ -58,8 +58,19 @@
                 <li class="active"><a href="{{ path('home')}}">Inicio</a></li>
                 <li><a href="{{ path('sobrenosotros')}}">Sobre Nosotros</a></li>
                 <li><a href="{{ path('informacion')}}">Informacion de Interes</a></li>
-                <li><a href="{{ path('servicios')}}">Servicios</a></li>
+                <li><a href="{{ path('servicios')}}">Comprar Servicios</a></li>
+                {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
                 <li><a href="{{ path('contacto')}}">Contacto</a></li>
+                {% endif %}
+                 {% if is_granted('ROLE_CLIENTES') %}
+                   <li><a href="{{ path('security_logout')}}">Mi Perfil</a></li>
+                  <li><a href="{{ path('mimaterial')}}">Mi Material</a></li>
+                   <li><a href="{{ path('security_logout')}}">Cerrar Session</a></li>
+                 {% endif %}
+                  {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+                      <li><a href="{{ path('user_registrarfront')}}">Registrarme</a></li>
+                       <li><a href="{{ path('login')}}">Ingresar</a></li>
+                  {% endif %}
               
               </ul>
             </div>
