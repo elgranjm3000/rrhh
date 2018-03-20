@@ -20,7 +20,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Doctrine\DBAL\Types\Type;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 
 
@@ -149,9 +151,14 @@ class AdminController extends Controller
               $em = $this->getDoctrine()->getManager();
               $em->persist($material);
               $em->flush();
-             return $this->redirectToRoute('material_add');
-        }
 
+               $this->addFlash(
+            'notice',
+            'Archivos guardados con exito'
+        );
+             return $this->redirectToRoute('material_listado');
+        }
+ 
 
         return $this->render(
             'admin/materialadd.html.twig',
@@ -159,6 +166,93 @@ class AdminController extends Controller
         );
 
     }
+    
+    
+      /**
+     * @Route("/material/{id}/edit", name="material_edit")
+     * @Method({"GET", "POST"})
+     */
+
+      
+    public function materialeditAction(Request $request,$id)
+    {
+
+          $em = $this->getDoctrine();
+
+        $entity = $em->getRepository(Product::class)->find($id);
+
+        //$material = new Product();
+        $form = $this->createForm(\App\Form\ProductType::class, $entity);
+
+        // 2) handle the submit (will only happen on POST)
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+    
+                      
+        
+         $filearchivo = $form['image']->getData();
+              $file = $entity->getImage();
+
+            
+              $foto_type = $filearchivo->guessExtension();
+              $foto_ext = $filearchivo->getMimeType();              
+              $foto_name = $filearchivo->getClientOriginalName();
+              $foto_size = $filearchivo->getClientSize();
+            //  $foto_temporal = $file;
+              //$f1= fopen($foto_temporal,"rb");      
+              //$foto_reconvertida = fread($f1, $foto_size);
+
+//              $stream = fopen($material->getImage(),'rb');
+            $fileName = $this->generateUniqueFileName().'.'.$file->guessExtension();
+
+  $file->move($this->getParameter('brochures_directory'),
+                $fileName
+            );
+
+              //$material->setImage(stream_get_contents($stream));
+              $entity->setImage($fileName);
+              $entity->setTamano($foto_size);
+              $entity->setFormato($foto_ext); 
+
+              $em = $this->getDoctrine()->getManager();
+              $em->persist($entity);
+              $em->flush();
+
+               $this->addFlash(
+            'notice',
+            'Archivos actualizado con exito'
+        );
+             return $this->redirectToRoute('material_listado');
+        }
+ 
+
+        return $this->render(
+            'admin/materialaedit.html.twig',
+            array('form' => $form->createView())
+        );
+
+    }
+
+
+    /**
+     * @Route("material/index", name="material_listado")
+     */
+
+      
+    public function materialindexAction(Request $request)
+    {
+         $product = $this->getDoctrine()
+        ->getRepository(Product::class)
+        ->findAll();
+        
+        $user = $this->getDoctrine()
+        ->getRepository(User::class)
+        ->findAll();
+        
+      return $this->render('material/index.html.twig',array('productos'=>$product,'user'=>$user));
+    }
+
 
    /**
      * @return string
@@ -205,6 +299,37 @@ return $response;
     // return $this->render('product/show.html.twig', ['product' => $product]);
 }
 
+
+
+/**
+ * @Route("/material/delete/{id}",name="material_delete")
+ */
+public function deletematerialAction(Request $request,$id)
+{
+   
+    
+       $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository(Product::class)->find($id);
+      
+
+    if (!$entity) {
+        throw $this->createNotFoundException(
+            'No product found for id '.$id
+        );
+    }
+
+    //$product->setName('New product name!');
+    $em->remove($entity);
+    $em->flush();
+
+   
+    $this->addFlash(
+            'notice',
+            'Archivos Eliminado'
+    );
+    return $this->redirectToRoute('material_listado');
+}
 
 
  /**
@@ -292,5 +417,121 @@ public function asignarAction(Request $request)
             array('form' => $form->createView())
         );
 }
+
+
+/**
+ * @Route("/asignar/now", name="asignar_now")
+ */
+
+ public function datosAction(Request $request){
+                        $ip=$this->getDoctrine()->getEntityManager();  
+
+         $idmaterial = $request->request->get('idmaterial');
+         $idusuario = $request->request->get('idusuario');
+         $id = 16;
+         
+          $material = new Asignar();
+          $material->setUsuarioasignado($ip->getReference(User::class,$idusuario));
+          $material->setMaterialasignado($ip->getReference(Product::class,$idmaterial));
+         $em = $this->getDoctrine()->getManager();
+            $em->persist($material);
+            $em->flush();
+                                     
+        //sleep(2);
+        
+              exit;
+            //return new JsonResponse($generardatos);
+    }
+    
+
+/**
+     * @Route("usuarios/", name="usuarios_listado")
+     */
+
+      
+    public function usuariosindexAction(Request $request)
+    {
+         
+        
+        $user = $this->getDoctrine()
+        ->getRepository(User::class)
+        ->findAll();
+        
+      return $this->render('usuarios/index.html.twig',array('user'=>$user));
+    }
+    
+    
+    
+     /**
+     * @Route("/usuarios/{id}/edit", name="usuarios_edit")
+     * @Method({"GET", "POST"})
+     */
+
+      
+    public function usuarioseditAction(Request $request,$id)
+    {
+
+          $em = $this->getDoctrine();
+
+        $entity = $em->getRepository(User::class)->find($id);
+
+        //$material = new Product();
+        $form = $this->createForm(\App\Form\UserType::class, $entity);
+
+        // 2) handle the submit (will only happen on POST)
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+              $em = $this->getDoctrine()->getManager();
+              $em->persist($entity);
+              $em->flush();
+
+               $this->addFlash(
+            'notice',
+            'Archivos actualizado con exito'
+        );
+             return $this->redirectToRoute('usuarios_listado');
+        }
+ 
+
+        return $this->render(
+            'usuarios/edit.html.twig',
+            array('form' => $form->createView())
+        );
+
+    }
+    
+    
+    /**
+ * @Route("/usuarios/delete/{id}",name="usuarios_delete")
+ */
+public function deleteusuarioslAction(Request $request,$id)
+{
+   
+    
+       $em = $this->getDoctrine()->getManager();
+
+        $entity = $em->getRepository(User::class)->find($id);
+      
+
+    if (!$entity) {
+        throw $this->createNotFoundException(
+            'USUARIOS NO ENCONTRADO '.$id
+        );
+    }
+
+    //$product->setName('New product name!');
+    $em->remove($entity);
+    $em->flush();
+
+   
+    $this->addFlash(
+            'notice',
+            'Usuario Eliminado'
+    );
+    return $this->redirectToRoute('usuarios_listado');
+}
+    
 
 }

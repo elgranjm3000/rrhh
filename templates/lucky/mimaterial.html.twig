@@ -13,11 +13,16 @@
       <div class="row">
         
 
+{% for flash_message in app.session.flashbag.get('notice') %}
+    <div class="alert alert-danger">
+        {{ flash_message }}
+    </div>
+{% endfor %}
 
   {% for entity in productos %}
 
         <div class="col-lg-4">
-           <iframe id="viewer" src="{{ asset('ViewerJS/') }}#..{{ asset('uploads/brochures/') }}{{ entity.image }}" width='400' height='300' allowfullscreen webkitallowfullscreen></iframe>
+           <iframe id="viewer" src="/ViewerJS/#../rrhh/uploads/brochures/{{ entity.materialasignado.image }}" width='400' height='300' allowfullscreen webkitallowfullscreen></iframe>
         </div><!-- /.col-lg-4 -->
 {% endfor %}
         

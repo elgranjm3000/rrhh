@@ -34,8 +34,8 @@ class ProductType extends AbstractType
             ->add('description', TextareaType::class, array(
                 'attr' => array('class' => 'tinymce'),
             ))
-            ->add('image', FileType::class)
-              
+         
+             ->add('image', FileType::class,array("data_class" => null))
         ;
 
 

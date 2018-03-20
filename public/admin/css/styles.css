@@ -1038,4 +1038,6 @@ p.back-link {
   text-transform: uppercase; }
 
 
-
+div.dataTables_wrapper {
+        margin-bottom: 3em;
+    }

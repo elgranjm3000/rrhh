@@ -14,10 +14,14 @@ use App\Entity\Product;
 use App\Entity\User;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-
+use App\Entity\Asignar;
+use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 
 class LuckyController extends Controller
 {
+    
+    
 	/**
       * @Route("/", name="home")
    	*/
@@ -29,7 +33,7 @@ class LuckyController extends Controller
             '<html><body>Lucky number: '.$number.'</body></html>'
         );*/
       return $this->render('lucky/number.html.twig', array(
-            'number' => $number,
+            'number' => $number,'idcampo'=>1
         ));
     }
 
@@ -58,7 +62,7 @@ class LuckyController extends Controller
         /*return new Response(
             '<html><body>Lucky number: '.$number.'</body></html>'
         );*/
-      return $this->render('lucky/nosotros.html.twig');
+      return $this->render('lucky/nosotros.html.twig',array('idcampo'=>2));
     }
 
      /**
@@ -66,7 +70,7 @@ class LuckyController extends Controller
     */
     public function informacion()
     {
-      return $this->render('lucky/informacion.html.twig');
+      return $this->render('lucky/informacion.html.twig',array('idcampo'=>3));
     }
 
     /**
@@ -78,7 +82,7 @@ class LuckyController extends Controller
       $product = $this->getDoctrine()
         ->getRepository(Product::class)
         ->findAll();
-      return $this->render('lucky/servicios.html.twig',array('productos'=>$product));
+      return $this->render('lucky/servicios.html.twig',array('productos'=>$product,'idcampo'=>4));
     }
 
     /**
@@ -123,13 +127,13 @@ class LuckyController extends Controller
 
 
       return $this->render('lucky/contacto.html.twig', array(
-            'form' => $form->createView(),
+            'form' => $form->createView(),'idcampo'=>5
         ));
     }
 
 
     /**
-     * @Route("/admin", name="admin")
+     * @Route("/administrator/admin", name="admin")
      */
     public function admin(AuthorizationCheckerInterface $authChecker)
     {
@@ -141,7 +145,9 @@ class LuckyController extends Controller
     }
   if ($authChecker->isGranted('ROLE_ADMIN')) {
         
-            return $this->render('admin/index.html.twig');
+            //return $this->render('admin/index.html.twig');
+            return $this->redirectToRoute('material_listado');
+            
         }
     }
 
@@ -158,13 +164,90 @@ class LuckyController extends Controller
    /**
       * @Route("/mimaterial", name="mimaterial")
     */
-    public function mimaterialAction()
+    public function mimaterialAction(Request $request)
     {
-      $product = $this->getDoctrine()
-        ->getRepository(Product::class)
-        ->findAll();
-      return $this->render('lucky/mimaterial.html.twig',array('productos'=>$product));
 
+      $idudusarios = $this->getUser();
+
+
+
+
+      $asignar = $this->getDoctrine()
+        ->getRepository(Asignar::class)
+        ->findBy(['idusuario' => $this->getUser()]);
+        
+        if(!$asignar){
+            $this->addFlash(
+            'notice',
+            'NO TIENE MATERIAL ASIGNADO.'
+        );
+        }
+        
+      return $this->render('lucky/mimaterial.html.twig',array('productos'=>$asignar,'idcampo'=>7));
+
+    }
+    
+    
+    
+    /**
+      * @Route("/miperfil", name="miperfil")
+    */
+    public function miperfilAction(Request $request)
+    {
+        
+         $em = $this->getDoctrine();
+         
+           if(!$this->getUser()){
+                    return $this->redirectToRoute('login');
+
+        }
+
+        $entity = $em->getRepository(User::class)->find($this->getUser());
+
+       
+        if(!$entity){
+                    return $this->redirectToRoute('login');
+
+        }
+        
+       $form = $this->createFormBuilder($entity)
+       ->setAction($this->generateUrl('miperfil'))
+    ->setMethod('POST')
+           ->add('email', EmailType::class)
+            ->add('username', TextType::class)
+            ->add('plainPassword', RepeatedType::class, array(
+                'type' => PasswordType::class,
+                'first_options'  => array('label' => 'Password'),
+                'second_options' => array('label' => 'Repeat Password'),
+            ))
+            ->add('save', SubmitType::class, array('label' => 'Modificar'))
+            ->getForm();
+
+            $form->handleRequest($request);
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        // $form->getData() holds the submitted values
+        // but, the original `$task` variable has also been updated
+        
+        
+        // ... perform some action, such as saving the task to the database
+        // for example, if Task is a Doctrine entity, save it!
+         $em = $this->getDoctrine()->getManager();
+         $em->persist($entity);
+         $em->flush();
+       
+         $this->addFlash(
+            'notice',
+            'TUS DATOS FUERON MODIFICADOS'
+        );
+
+        return $this->redirectToRoute('miperfil');
+    }
+
+
+      return $this->render('lucky/perfil.html.twig', array(
+            'form' => $form->createView(),'idcampo'=>6
+        ));
     }
     
 

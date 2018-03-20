@@ -12,15 +12,7 @@ class Product
 {
 
 
-    /**
-     * @ORM\OneToMany(targetEntity="Asignar", mappedBy="product")
-     */
-    protected $asignar;
- 
-    public function __construct()
-    {
-        $this->asignar = new ArrayCollection();
-    }
+  
 
     /**
      * @ORM\Id
@@ -28,6 +20,18 @@ class Product
      * @ORM\Column(type="integer")
      */
     private $id;
+    
+    
+    
+      /**
+     * @ORM\OneToMany(targetEntity="Asignar", mappedBy="materialasignado", cascade={"remove","persist"}, orphanRemoval=true)
+     */
+    protected $asignar;
+ 
+    public function __construct()
+    {
+        $this->asignar = new ArrayCollection();
+    }
 
     // add your own fields
 

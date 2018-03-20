@@ -1,0 +1,46 @@
+{% extends 'administrador.html.twig' %}
+
+
+
+{% block body %}
+
+<div class="row">
+      <ol class="breadcrumb">
+        <li><a href="#">
+          <em class="fa fa-home"></em>
+        </a></li>
+        <li class="active">Materiales</li>
+      </ol>
+    </div><!--/.row-->
+    
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="page-header">Editar Material</h1>
+      </div>
+    </div><!--/.row-->
+
+<div class="row">
+<div class="col-md-9">
+<div class="panel panel-default">
+<div class="panel-body">
+	{{ form_start(form) }}
+ 
+ {{ form_row(form.name,{'label':'Nombre del Archivo','attr': {'class': 'form-control','placeholder':'Nombre del Archivo', 'title': 'Escriba nombre del archivo'} } ) }}
+
+ {{ form_row(form.price,{'label':'Costo del Archivo','attr': {'class': 'form-control','placeholder':'Costo del Archivo', 'title': 'Mencione el costo del archivo'} } ) }}
+
+  {{ form_row(form.description,{'label':'Descripcion del Archivo','attr': {'class': 'form-control','placeholder':'Mencione una breve descripcion de su archivo', 'title': 'Descripcion del archivo'} } ) }}
+ 
+ {{ form_row(form.image,{'label':'Archivo a subir','attr': {'class': 'form-control','placeholder':'Costo del Archivo', 'title': 'Mencione el costo del archivo'} } ) }}
+
+
+
+
+ <button type="submit" class="btn btn-sm btn-success btn-md pull-right">Guardar</button>
+{{ form_end(form) }}
+	</div>
+	</div>
+</div>
+</div>
+
+{% endblock %}

@@ -22,7 +22,7 @@ class User implements UserInterface, \Serializable
 
 
     /**
-     * @ORM\OneToMany(targetEntity="Asignar", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="Asignar", mappedBy="usuarioasignado", cascade={"remove","persist"}, orphanRemoval=true)
      */
     protected $asignar;
  
@@ -41,13 +41,13 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=25, unique=true)
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Campo Obligatorio")
      */
     private $username;
 
 
      /**
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Campo Obligatorio")
      * @Assert\Length(max=4096)
      */
     private $plainPassword;
@@ -61,13 +61,14 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="simple_array", length=20)
+     *  @Assert\NotBlank(message="Campo Obligatorio")
      */
     private $roles;
 
     /**
      * @ORM\Column(type="string", length=60, unique=true)
-     * @Assert\NotBlank()
-     * @Assert\Email()
+     * @Assert\NotBlank(message="Campo Obligatorio")
+     * @Assert\Email(message="Email invalido")
      */
     private $email;
 

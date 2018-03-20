@@ -1,0 +1,20 @@
+{% extends 'template.html.twig' %}
+
+
+{% block body %}
+
+    <div class="container marketing">
+    
+
+{% for flash_message in app.session.flashbag.get('notice') %}
+    <div class="alert alert-info">
+        {{ flash_message }}
+    </div>
+{% endfor %}
+{% form_theme form 'bootstrap_4_horizontal_layout.html.twig' %}
+
+{{ form_start(form) }}
+{{ form_widget(form) }}
+{{ form_end(form) }}
+
+{% endblock %}

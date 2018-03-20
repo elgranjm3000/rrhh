@@ -5,30 +5,32 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\AsignarRepository")
  */
 class Asignar
 {
-
-    /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="asignar")
-     * @ORM\JoinColumn(name="idusuario", referencedColumnName="id")
-     */
-    protected $usuarioasignado;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Product", inversedBy="asignar")
-     * @ORM\JoinColumn(name="idmaterial", referencedColumnName="id")
-     */
-    protected $materialasignado;
-
-
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $id;
+    
+     /**
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="asignar")
+     * @ORM\JoinColumn(name="idusuario", referencedColumnName="id")
+     */
+    protected $usuarioasignado;
+
+
+    
+    /**
+     * @var integer
+     *
+     * @ORM\ManyToOne(targetEntity="Product")
+     * @ORM\JoinColumn(name="idmaterial", referencedColumnName="id")
+     */
+    protected $materialasignado;
 
     // add your own fields
 
